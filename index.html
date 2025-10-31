@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library of Babel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            background-color: #f4e8d8;
+            color: #2a1810;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+        }
+
+        .hex-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10 L90 30 L90 70 L50 90 L10 70 L10 30 Z" fill="none" stroke="%23654321" stroke-width="2"/><path d="M50 25 L75 37.5 L75 62.5 L50 75 L25 62.5 L25 37.5 Z" fill="none" stroke="%23654321" stroke-width="1.5"/><path d="M50 35 L65 42.5 L65 57.5 L50 65 L35 57.5 L35 42.5 Z" fill="none" stroke="%23654321" stroke-width="1"/></svg>') center center no-repeat;
+            background-size: contain;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            font-weight: normal;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            color: #3a2010;
+        }
+
+        .tagline {
+            font-style: italic;
+            font-size: 1.1em;
+            color: #5a4030;
+            margin-bottom: 40px;
+        }
+
+        nav {
+            background: #e8dcc8;
+            padding: 15px 0;
+            margin-bottom: 40px;
+            border-top: 1px solid #c8b898;
+            border-bottom: 1px solid #c8b898;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        nav a {
+            color: #3a2010;
+            text-decoration: none;
+            font-size: 0.95em;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #8b4513;
+        }
+
+        .main-content {
+            background: white;
+            padding: 40px;
+            border: 1px solid #d8c8b8;
+            margin-bottom: 30px;
+        }
+
+        .search-section {
+            margin-bottom: 40px;
+        }
+
+        .search-section h2 {
+            font-size: 1.8em;
+            font-weight: normal;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #3a2010;
+        }
+
+        .search-info {
+            background: #faf8f5;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 3px solid #8b4513;
+            font-size: 0.95em;
+            color: #4a3020;
+        }
+
+        .search-form {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #3a2010;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            font-family: Georgia, serif;
+            font-size: 1em;
+            border: 2px solid #d8c8b8;
+            background: #fdfcfb;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #8b4513;
+        }
+
+        .char-count {
+            text-align: right;
+            font-size: 0.85em;
+            color: #6a5040;
+            margin-top: 5px;
+        }
+
+        .search-btn {
+            display: inline-block;
+            padding: 12px 35px;
+            background: #654321;
+            color: #f4e8d8;
+            border: none;
+            cursor: pointer;
+            font-family: Georgia, serif;
+            font-size: 1em;
+            transition: background 0.3s;
+            margin-top: 15px;
+        }
+
+        .search-btn:hover {
+            background: #8b4513;
+        }
+
+        .results-section {
+            display: none;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 2px solid #d8c8b8;
+        }
+
+        .results-section.active {
+            display: block;
+        }
+
+        .results-header {
+            font-size: 1.5em;
+            margin-bottom: 25px;
+            color: #3a2010;
+            font-weight: normal;
+        }
+
+        .result-item {
+            background: #faf8f5;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #8b4513;
+            transition: background 0.3s;
+        }
+
+        .result-item:hover {
+            background: #f5f0e8;
+        }
+
+        .result-link {
+            color: #654321;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .result-link:hover {
+            color: #8b4513;
+            text-decoration: underline;
+        }
+
+        .result-meta {
+            font-size: 0.9em;
+            color: #6a5040;
+            font-style: italic;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #5a4030;
+            font-size: 0.9em;
+            border-top: 1px solid #d8c8b8;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 30px 0;
+            font-style: italic;
+            color: #6a5040;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .main-content {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="hex-logo"></div>
+            </div>
+            <h1>LIBRARY OF BABEL</h1>
+            <p class="tagline">By this art you may contemplate the variation of the 23 letters</p>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="#">Browse</a></li>
+                <li><a href="#">Search</a></li>
+                <li><a href="#">Random</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Reference Hex</a></li>
+                <li><a href="#">Image Archives</a></li>
+                <li><a href="#">Theory</a></li>
+            </ul>
+        </nav>
+
+        <div class="main-content">
+            <div class="search-section">
+                <h2>Search the Library</h2>
+
+                <div class="search-info">
+                    <strong>Note:</strong> Enter up to 3200 characters. The library contains only lower-case letters, space, comma, and period.
+                </div>
+
+                <form class="search-form" onsubmit="performSearch(event)">
+                    <label for="searchText">Enter your search query:</label>
+                    <textarea
+                        id="searchText"
+                        name="searchText"
+                        maxlength="3200"
+                        placeholder="Type your text here..."
+                        oninput="updateCharCount()"
+                    ></textarea>
+                    <div class="char-count">
+                        <span id="charCount">0</span> / 3200 characters
+                    </div>
+                    <button type="submit" class="search-btn">Search</button>
+                </form>
+            </div>
+
+            <div class="loading" id="loading">
+                Searching through infinite hexagonal galleries...
+            </div>
+
+            <div class="results-section" id="results">
+                <h3 class="results-header">Search Results</h3>
+                <div class="result-item">
+                    <a href="shop.html" class="result-link">???</a>
+                    <div class="result-meta">
+                        Location: Unknown Hexagon " Wall: ??? " Shelf: ??? " Volume: ??? " Page: ???
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>The Library of Babel is a place for scholars to do research, for artists and writers to seek inspiration, for anyone with curiosity or a sense of humor to reflect on the weirdness of existence.</p>
+            <p style="margin-top: 15px;">Based on Jorge Luis Borges' "The Library of Babel"</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateCharCount() {
+            const textarea = document.getElementById('searchText');
+            const charCount = document.getElementById('charCount');
+            charCount.textContent = textarea.value.length;
+        }
+
+        function performSearch(event) {
+            event.preventDefault();
+
+            const searchText = document.getElementById('searchText').value.trim();
+
+            if (searchText === '') {
+                alert('Please enter some text to search.');
+                return;
+            }
+
+            // >:07K205< 703@C7:C
+            const loading = document.getElementById('loading');
+            const results = document.getElementById('results');
+
+            loading.classList.add('active');
+            results.classList.remove('active');
+
+            // <8B8@C5< ?>8A: A =51>;LH>9 7045@6:>9 4;O @50;8AB8G=>AB8
+            setTimeout(() => {
+                loading.classList.remove('active');
+                results.classList.add('active');
+
+                // ;02=0O ?@>:@CB:0 : @57C;LB0B0<
+                results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 1500);
+        }
+
+        //  07@5H05< B>;L:> >?@545;5==K5 A8<2>;K
+        document.getElementById('searchText').addEventListener('input', function(e) {
+            // AB02;O5< B>;L:> 1C:2K, ?@>15;K, 70?OBK5 8 B>G:8 (:0: 2 >@838=0;5)
+            this.value = this.value.toLowerCase().replace(/[^a-z ,.]/g, '');
+        });
+    </script>
+</body>
+</html>
